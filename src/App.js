@@ -1,6 +1,5 @@
-import './App.css';
-import UI from './Components/UI/UI';
- 
+import "./App.css";
+import UI from "./Components/UI/UI";
 
 function App() {
   return (
@@ -11,4 +10,3 @@ function App() {
 }
 
 export default App;
- 

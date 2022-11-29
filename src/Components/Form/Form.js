@@ -1,55 +1,60 @@
 import React, { useState } from "react";
 import "./Form.css";
-const Form = () => {
-  const [secondName, setSecondName] = useState();
-  const [isValid, setIsValid] = useState(true);
 
-  const goalInputChangeHandler = (event) => {
+const Form = () => {
+  const [secondName, setSecondName] = useState("");
+  const [isValid, setIsValid] = useState(true);
+  const [error, setError] = useState(false);
+
+  const setSecondNameHandler = (event) => {
     if (
       event.target.value.trim().length > 2 &&
       event.target.value.trim().length <= 12
     ) {
-      setIsValid(true)
-    }
-  else{
+      setIsValid(true);
+    } else {
       setIsValid(false);
     }
     setSecondName(event.target.value);
   };
 
-  const formSubmitHandler = (event) => {
+  const SubmitHandler = (event) => {
     event.preventDefault();
 
-    if (secondName.trim().length === 0) {
-      setIsValid(false);
+    if (secondName.length < 3 && secondName.length < 12) {
+      setError(true);
+      return;
+    } else {
+      setError(false)
     }
-  }
+  };
 
   return (
     <div>
-      <form>
+      <form onSubmit={SubmitHandler}>
         <div>
           <label>First name</label>
           <br />
-          <input className="input" type="text" placeholder="first name" />
+          <input className="input" type="text" placeholder="First name" />
         </div>
 
         <div className={`formControl ${!isValid && "invalid"}`}>
           <label>Second Name</label>
           <br />
           <input
-            className="input"
+            className="input secondName"
             type="text"
-            placeholder="second name"
-            onChange={goalInputChangeHandler}
-            required
+            value={secondName}
+            placeholder="Second name"
+            onChange={setSecondNameHandler}
           />
         </div>
+        {error ? <label className="error">Please Second Name Should between 3-12 characters.</label> : ""}
 
         <div>
           <label>Email</label>
           <br />
-          <input className="input" type="email" placeholder="email" />
+          <input className="input" type="email" placeholder="Email" />
         </div>
 
         <div>
@@ -97,7 +102,7 @@ const Form = () => {
         </div>
 
         <div>
-          <button type="submit" className="button" onSubmit={formSubmitHandler}>
+          <button type="submit" className="button">
             SEND FEDBACK
           </button>
         </div>
